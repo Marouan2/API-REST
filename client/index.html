@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hébergements</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="css/hotels.css" rel="stylesheet">
+	<link href="css/breadcrumbs.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+  </head>
+  <body>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">Gestion Hébergement</a>
+		  <div class="navbar-collapse">
+	       	    	
+		  </div>			
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list" id="citys">
+              <li class="nav-header">Associations</li>
+			  <li class="divider"></li>
+			        <ul  class="nav  tree active-trial">
+                        
+					</ul>	
+            </ul>
+          </div>
+          <a href="#new-city" id="add-city" data-toggle="tooltip" data-placement="bottom" data-original-title="Ajouter city" class="btn pull-right"><i class="icon-folder-open"></i>&nbsp;&nbsp;Add city</a>
+        </div>
+        <div class="span9 main-content" >
+          <div class="page-header">
+            <div class="row-fluid">
+                <div class="span9">
+                  <ol class="breadcrumb">
+				     <li><a href="#">Associations</a><span class="divider">></span></li>
+                     <li><a id="city-title" href="#"><span>City</span></a><span class="divider">></span></li>
+                     <li class="active">Hébergements</li>
+                  </ol>
+				   
+                </div>
+                <div class="span3">
+                  <a href="#new-hotel" data-toggle="tooltip" data-placement="bottom" data-original-title="Ajouter Hébergement" id="add-hotel" role="button" class="btn pull-right"><i class="icon-tasks"></i>&nbsp;&nbsp;Add hotel</a>
+                  <a href="#delete-city" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete City" id="remove-city" role="button" data-placement='bottom' class="btn pull-right offset-right resetPrice"><i class="icon-trash"></i></a>
+                </div>
+            </div>
+          </div>
+		  <div class="container">
+		    <div class="span8" id="hotels">
+		     </div>
+		  </div>
+		
+		 
+		 
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/underscore.min.js"></script>
+	<script type="text/javascript" src="js/backbone.min.js"></script>
+	<script type="text/javascript" src="js/hotels.js"></script>
+
+	
+	<script type="text/template" id="city-dialog">
+		<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="Create city" aria-hidden="true">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+	        <h3 id="myModalLabel">Create city</h3>
+	      </div>
+	      <div class="modal-body">
+	        <form class="form-inline">
+	          <input type="text" name="name" class="input-block-level project-title" placeholder="City name" value="<%= name %>">
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button class="btn close-action" data-dismiss="modal" aria-hidden="true">Cancel</button>
+	        <button class="btn btn-primary save-action">Save</button>
+	      </div>
+	    </div>
+	    <div class="modal-backdrop fade in"></div>
+	</script>
+	
+	
+	<script type="text/template" id="city-item">
+		<a href="#<%= name %>/<%= id %>" data-id="<%= id %>"  data-toggle="tooltip" data-placement="bottom" data-original-title="Double click to edit city"><%= name %></a>
+		
+	</script>
+	
+	<script type="text/template" id="hotel-dialog">
+		<div class="modal in fade" tabindex="-1" role="dialog" aria-labelledby="Create hotel" aria-hidden="true">
+	      <div class="modal-header primary">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+	        <h3 id="myModalLabel">Create or Edit hébergement</h3>
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	          <p><input type="text" name="hotel" class="input-xlarge span3 input-task" placeholder="Hotel name" value="<%= hotel %>"></p>
+	          <p> <input type="text" name="address" class="input-xlarge span3 input-task" placeholder="Address" value="<%= address %>"></p>
+	          <p><input type="text" name="description" class="input-xlarge span3 input-task" placeholder="Description" value="<%= description %>"></p>
+	         
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button class="btn close-action" data-dismiss="modal" aria-hidden="true">Cancel</button>
+	        <button class="btn btn-primary save-action">Save</button>
+	      </div>
+	    </div>
+	    <div class="modal-backdrop fade in"></div>
+	</script>
+	
+	
+	<script type="text/template" id="hotel-reserve">
+		<div class="modal in fade" tabindex="-1" role="dialog" aria-labelledby="Create hotel" aria-hidden="true">
+	      <div class="modal-header modal-header-info">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+	        <h3 id="myModalLabel">Informations</h3>
+	      </div>
+	      <div class="modal-body">
+	        <h3><%= hotel %></h3>
+			<h5><a><%= address %></a></h5>
+			<p><%= description %></p>
+	      </div>
+	      <div class="modal-footer">
+            <button class="btn close-action" data-dismiss="modal" aria-hidden="true">Réserver ce logement</button>
+    	  </div>
+	    </div>
+	    <div class="modal-backdrop fade in"></div>
+	</script>
+	
+	
+	<script type="text/template" id="hotel-item">
+	         
+                <h4 class="panel-title">
+                  <a href="#<%= city_id %>/<%= hotel %>/<%= id %>" class="detail-action" data-toggle="tooltip" data-placement="bottom" data-original-title="Cliquer ici pour réserver ce logement" ><%= hotel %></a>	
+				<a href="#" data-toggle="tooltip" data-placement="right" data-original-title="Nombre d'étoiles">
+				      <i class="icon-star"></i>
+					  <i class="icon-star"> </i>
+					  <i class="icon-star"></i>
+					  <i class="icon-star"></i>
+				</a>
+				</h4>
+				 <p><%= address %></p>
+                 <p><%= description %></p>
+                 <a href="#edit" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit Hébergement" class="edit-action"><i class="icon-pencil"></i></a>
+				 <a href="#delete" data-toggle="tooltip" data-placement="right" data-original-title="Delete Hébergement" class="delete-action"><i class="icon-trash"></i></a>
+				
+			 <hr>
+	</script>
+	<script type="text/javascript">
+	
+        $(window).load(function(){
+           //tooltip, by default, activated by hover event
+            $('body').tooltip({   
+                selector: '[data-toggle=tooltip]',
+                  container: 'body'
+            });
+        });
+
+</script>
+</body>
+</html>

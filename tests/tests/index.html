@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hotel Tests</title>
+  
+</head>
+<body>
+  <div id="mocha"><p><a href=".">Index</a></p></div>
+  <div id="messages"></div>
+  <div id="fixtures"></div>
+  <script src="libs/mocha.js"></script>
+  <script src="libs/chai.js"></script>
+  <script src="libs/sinon.js"></script>
+  <script src="libs/sinon-chai.js"></script>
+  <script src="hotel.js"></script>
+  <script>mocha.setup('bdd')</script>
+  <script src="tests.js"></script>
+  <script>mocha.run();</script>
+</body>
+</html>
